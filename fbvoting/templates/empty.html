@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if not already_logged %}
+    <script>
+        $('body').on('propagationDefined', function() {
+            $("#loginButton").hide();
+            {{js_on_loaded}}
+        });
+    </script>
+    
+    <a onclick="authWithButton();" href="javascript:;" class="loading-authentication" id="loginButton" style="display: none;" >
+        <img src="static/images/facebook-login-button.png" width=300 height=46 type="button" value="Login!"/>
+    </a>
+{% endif %}
+
+<div id="intro-container">
+    {% if already_logged %}
+        {% include 'bits/intro.html' %}
+    {% else %}
+        <img id="loading-wheel" class="loading-authentication" src="/static/images/ajax_loader_gray_512.gif" />
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+    <div class="page-header">
+        <h1>Liquid FM <small>{{description}}</small> </h1>
+    </div>
+
+    <h2><a id="what-is-this">What is this?</a></h2>
+   
+    <p><big>
+    Liquid FM is a recommendation system for music in which <em>you</em> decide who's good at recommending music. Usually such a system
+    tries to guess your tastes from what your friends listen to. In Liquid FM, instead, <em>you</em> can entrust someone
+    else to be a good recommender. The more trust someone gets, the more
+    important their suggestions are. Anybody can entrust other people, in turn,
+    carrying on part of their importance. And 
+    <em>you</em> can recommend what music to listen to, as
+    you are <em>always</em> in some way important.
+    </big></p>
+
+    <p>
+        This chain of trust &mdash; that flows from you to the people you nominated
+        &mdash; translates, mathematically, to a <em>hype score</em> computed
+        specifically for every person.
+        Every song is then ranked according to the score of all the people
+        who voted for it.
+        This score in the end results in the
+        <a href="/chart">global recommendations</a> you see.
+    </p>
+    
+    <p>
+        <a href="/recommendation">Personal recommendations</a> are computed in
+        a very similar way, but weighting more the delegates you have personally
+        voted for.
+        This results in a higher consideration of their own delegates (and so on) and
+        &mdash; obviously &mdash; of the song they chose.
+    </p>
+    
+    
+    <h2><a id="liquid-democracy">What is viscous democracy?</a></h2>
+   
+    <p>
+    Liquid FM is the first application for music recommendation adopting the approach of <em>viscous democracy</em>. 
+    This is in fact the first time one tries to apply this kind of semi-direct democracy in a real scenario.
+    Viscous democracy was described in <a href="http://chato.cl/blog/en/2011/05/viscous_democracy_for_social_networks.html">a research paper</a>
+    and it is a variant of <a href="http://en.wikipedia.org/wiki/Delegative_democracy">liquid (or delegative) democracy</a>. 
+
+    <p>
+    Pure liquid democracy is thought as a compromise between <a href="http://en.wikipedia.org/wiki/Direct_democracy">direct democracy</a> (where the citizens directly express their
+    opinions on each matter) and <a href="http://en.wikipedia.org/wiki/Representative_democracy">representative democracy</a> (where citizens elect representatives that take decisions on their behalf).
+    In a liquid system, each citizen may choose whether to express his/her opinion or to delegate somebody to do that.
+    Liquid democracy has been attracting more and more attention lately, and it is being used actively in <a href="http://en.wikipedia.org/wiki/Delegative_democracy#Notable_examples_of_delegative_democracy">a variety of contexts</a>.
+    Nonetheless, its indiscriminate usage in a social network is problematic: as our vote travels farther away through a delegation chain, we 
+    would like to introduce some reluctance in the way the power is transferred to other people we may not know directly. 
+    For this reason, viscous democracy includes a damping factor (like <a href="http://en.wikipedia.org/wiki/Katz_centrality">Katz's index</a> or <a href="http://en.wikipedia.org/wiki/PageRank">PageRank</a> do) to reduce the amount of power delegated through long chains. 
+    Technically, our system of viscous democracy is a system of transitive proxy voting with exponential damping.
+
+    <p>
+    This system (fully described in <a href="http://chato.cl/blog/en/2011/05/viscous_democracy_for_social_networks.html">the above cited paper</a>) 
+    is used to establish a per-genre <em>guru score</em>, that is then used to determine the music recommendations you see;
+    full details on how this is done will be provided in a forthcoming paper.
+    </p>
+
+    <h2><a id="privacy">Privacy Policy</a></h2>
+
+    <p>
+    When you use Liquid FM, you give us permission to store your e-mail, full name and friend list as they appear on Facebook.
+    We use this information <strong>for research purposes only</strong>, and we do not sell, trade, or otherwise transfer any personally identifiable Information, nor will we use it for marketing. The results of this research will be anonymous, statistical information only, and you will NOT be identifiable in any published results.
+    </p>
+    
+    <p>
+    The only methods we use to collect this information is from Facebook and from the form you use in our app. We use an SSL certificate to protect the communication. In order to update this information, you can update it on Facebook and log in here; if you want to, you can also use Facebook settings to revoke this permission in any moment. To opt out and delete your data, use our <a href="/about#contacts">contact information</a>. We do not include or offer third party products or services on our website. In order to be in line with Fair Information Practices, in the unlikely event of a data breach we will notify the users via in site notification as soon as we notice. 
+    </p>
+    
+    <p>Finally, this web app uses cookies to identify your profile, but only if
+    your browser configuration permits it to do so.</p>
+    
+    <h2><a id="credits">Credits</a></h2>
+    
+    <p> This app is created by the <a target="_blank" href="http://law.di.unimi.it/">
+    Laboratory of Web Algorithmics</a> of <a target="_blank" href="http://unimi.it/">
+    University of Milan</a>, as a part of the european
+    <a target="_blank" href="http://www.quantware.ups-tlse.fr/FETNADINE/">NADINE
+    </a> project.</p>
+    
+    <p>The logo image is a modification of works done by Gira Park and
+    James Fenton from The Noun Project. Cover image is a photo from Francoise
+    Dorelli, released under
+    <a target="_blank" href="https://creativecommons.org/licenses/by-sa/3.0/">
+    this licence</a>. Images used for music and records belong to their
+    respective owners, and are used here only for illustration purposes under fair use. </p>
+
+    <h2><a id="contacts">Contacts</a></h2>
+    <p> To contact us for any reason, please write to <a href="mailto:liquidfm@di.unimi.it">this email</a>.</p>
+
+    
+</section>
+{% endblock %}

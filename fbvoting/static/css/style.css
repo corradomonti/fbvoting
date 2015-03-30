@@ -1,0 +1,294 @@
+body {padding: 20px 0;}
+.clearfix{ display: block; height: 0; clear: both; visibility: hidden; }
+
+.tabs > li > a {
+    padding: 0 12px;
+}
+
+.logo {
+    position: absolute;
+    margin-left:600px;
+    z-index: 1;
+}
+
+section {
+    margin-top: 20px;
+}
+
+.big {
+    color: #333333;
+    font-size: 20px;
+    line-height: 28px;
+}
+
+.small {
+    font-size: 14px;
+}
+
+.read-more {
+    font-size: 14px;
+    text-align: right;
+    margin-left: 15px;
+}
+
+.hero-unit p {
+    font-size: 17px;
+    margin-top: 12px;
+}
+
+.hero-unit h2 {
+    margin-top: 5px;
+}
+
+fieldset {
+    padding-top: 0;
+}
+
+fieldset legend {
+    margin: 10px 0 10px 0;
+}
+
+.fbac-suggestion-list {
+    border-color: #BBB;
+}
+
+.alert-message {
+    padding: 15px 15px;
+}
+
+.alert-message .suggestion {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.tabs .dropdown-menu {
+    top: 20px;
+    min-width: 115px;
+}
+
+/* person badge */
+
+.fbv-avatar {
+    max-width:80px;
+    max-height:80px;
+}
+
+/* Votes overview */
+
+.editable-big {
+    background:url(../images/edit-big.png);
+    background-repeat:no-repeat;
+    background-position:center;
+    text-align: center;
+
+}
+
+.editable-med {
+    background:url(../images/edit-med.png);
+    background-repeat:no-repeat;
+    background-position:center;
+    text-align: center;
+}
+    
+.circled {
+    border-radius: 100%;
+    vertical-align: middle;
+}
+
+.column .btn {
+    margin-bottom: 17px;
+}
+
+.votes-overview td img {
+    border-radius: 0%;
+}
+
+.votes-overview a {
+    border-radius: 100%;
+    vertical-align: middle;
+    color: #333333;
+}
+.votes-overview {
+    text-align: center;
+}
+
+.votes-overview h1 {
+    font-size: 24px;
+    line-height: 28px;
+    margin-bottom: 14px;
+    color: #333333;
+}
+
+.votes-overview .row {
+    display: table !important;
+}
+.votes-overview .column {
+    float: none !important;
+    display: table-cell !important;
+    vertical-align:middle;
+}
+.votes-overview .column td {
+    font-size: 13px;
+    border: 1px solid #DDDDDD;
+    border-right: none;
+    border-left: none;
+    min-width:35px;
+    text-align:center;
+    vertical-align:middle;
+}
+
+/* Single Vote */
+
+.hero-unit .genre-title {
+    margin-top:40px;
+}
+
+.single-directvote {
+    margin: 4px 0 12px 0;
+}
+
+#chosen {
+    text-align:center;
+    margin-left: 90px;
+}
+
+.help-block {
+    margin-bottom: 18px;
+}
+
+fieldset legend {
+    margin-bottom: 4px;
+}
+
+.input-error {
+    background-color: #FFEBE8;
+    border-color: #DD3C10;
+}
+
+/* autocompleter loading */
+
+.loading {
+    background-image: url(/static/images/16p-ajax-loader.gif);
+    background-position:  97%;
+    background-repeat: no-repeat;
+}
+
+/* video select */
+
+.alert-message.block-message.success {
+    margin-top: 15px;
+}
+
+/* User profile */
+
+.hero-unit li {
+    color: #333333;
+    font-size: 15px;
+    line-height: 19px;
+}
+
+.guru-status h1 {
+    margin-top: 25px;
+}
+
+#nomination-share-btn {
+    margin-left: 25px;   
+}
+
+/* ranks */
+.rank-category-title {
+    border-right: 1px solid #DDDDDD;
+}
+
+.title-vertical-spacing {
+    height: 30px;
+}
+
+.rank-category img {
+    margin-top: 16px;
+}
+
+.rank-item {
+    margin-top: -2px;
+    margin-left: 0px;
+}
+
+.hover-infos {
+    opacity: 0;
+}
+
+.rank-infos {
+    height: 40px;
+}
+
+.single-category-rank .rank-infos {
+    min-height: 70px;
+}
+
+.single-category-rank .position {
+    height: 20px;
+}
+
+.rank-row {
+    margin-left: 40px !important;
+}
+
+.playable {
+    background:url(../images/play-med.png);
+    background-repeat:no-repeat;
+    background-position:center;
+    text-align: center;
+}
+
+.playable img {
+    border: 2px solid #EEE;
+    border-radius: 2%;
+}
+
+.video-player {
+    text-align: left;
+}
+
+/* video-playing-interface */
+
+.youtube-player {
+    width: 350px;
+    height: 40px;
+}
+
+@media screen and (max-width: 800px) {
+    .youtube-player {
+        width: 300px !important;
+        height: 168px !important;
+    }
+    .vote-share-btn {
+        display: block !important;
+    }
+}
+
+.video-playing-interface {
+    display: none;
+}
+
+.video-playing-interface .btn {
+    margin: 0 5px 0 10px;
+    padding: 5px 10px;
+}
+
+.like-btn, .dislike-btn{
+	width: auto; height: 30px; padding: 0 7px 0 27px;
+	float: left; margin-left: 10px; margin-top: 15px;
+	cursor: pointer; color: #333333; font-size: 13px; line-height: 30px;
+	border:#fff 1px solid;
+	-webkit-border-radius: 2px;-moz-border-radius: 2px;border-radius: 2px; /* border radius */
+}
+.like-btn{background: url(../images/rate/like-ico.png) 5px 50% no-repeat; }
+.like-btn:hover, .like-h{
+	background: url(../images/rate/like-ico-h.png) 5px 50% no-repeat; color: #0c6502;
+	background-color: #f0f0f0;	border: #c6c6c6 1px solid; 
+}
+.dislike-btn{background: url(../images/rate/dislike-ico.png) 50% 50% no-repeat; }
+.dislike-btn:hover, .dislike-h{
+	background: url(../images/rate/dislike-ico-h.png) 50% 50% no-repeat;
+	background-color: #f0f0f0;	border: #c6c6c6 1px solid; 
+}

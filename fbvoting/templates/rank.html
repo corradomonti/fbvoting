@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<script src="/static/js/rank.js"></script>
+<script src="/static/js/playbuttons.js"></script>
+
+<section id="tables">
+        
+    <div class="page-header">
+      <h1>
+            {{header}}
+      </h1>
+    </div>
+        
+    <div class="votes-overview">
+        
+        {% for category in categories %}
+        
+            <div class="row" id="{{category}}" >
+                <div class="span3 column rank-category-title">
+                    <div class="title-vertical-spacing"></div>
+                    <a href="{{rank_type}}/{{category}}">
+                        <div>
+                            <img class="circled" width="150" height="150" alt="" src="/static/images/categories/{{category}}.jpg" />
+                        </div>
+                        <h1>{{category}}</h1>
+                    </a>
+                </div>
+                
+                <div id="{{category}}-ranks">
+                    <div class="video-playing-interface">
+                        <div class="span column video-player" id="{{category}}-video-hook"></div>
+                        <div class="column">
+                            <a href="javascript:;" class="share-btn btn primary large">Share</a>
+                        </div>
+                        <div class="like-btn column">Like</div>
+                        <div class="dislike-btn column"></div>
+                    </div>
+            
+                    <div class="span column">
+                        <img class="loading-ranks" alt="" src="static/images/80px-loader.gif" />
+                    </div>
+                    
+                    
+                    <script>
+                        $('body').on( "propagationDefined", function() {
+                            // load ranks
+                            requestRank('{{category}}-ranks', '{{category}}', '{{rank_type}}', 0,
+                                afterLoading = /* append "see more" button */ function() {
+                                    $('#{{category}}-ranks').append(
+                                        '<div class="span1 column more-button-container">       \
+                                            <a href="chart/{{category}}" class="more-button">   \
+                                                <img src="/static/images/more.png">             \
+                                            </a>                                                \
+                                        </div>'
+                                    );
+                                }
+                            );
+                        });
+                    </script>
+                
+                </div>
+                
+
+                
+                
+            </div>
+                
+            <hr />
+                
+        {% endfor %}
+      
+    </div>
+
+</section>
+
+{% endblock %}

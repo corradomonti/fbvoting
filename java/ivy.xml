@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ivy-module version="2.0">
+	<info organisation="it.unimi.di" module="fbvoting"/>
+
+	<configurations defaultconf="compile" defaultconfmapping="*->default">
+		<conf name="compile"/>
+		<conf name="runtime" extends="compile"/>
+		<conf name="test" extends="runtime"/>
+	</configurations>
+
+	<dependencies>
+		<dependency org="it.unimi.dsi.law" name="law-library" rev="latest.integration"/>
+		<dependency org="it.unimi.dsi" name="fastutil" rev="6.5.15" />
+		<dependency org="com.martiansoftware" name="jsap" rev="2.1"/>
+		<dependency org="junit" name="junit" rev="latest.release" conf="test"/>
+		<dependency org="emma" name="emma" rev="latest.release" conf="test"/>
+		<dependency org="emma" name="emma_ant" rev="latest.release" conf="test"/>
+		<dependency org="org.slf4j" name="slf4j-api" rev="latest.release"/>
+		<dependency org="ch.qos.logback" name="logback-classic" rev="latest.release"/>
+		<dependency org="it.unimi.dsi" name="webgraph" rev="3.4.0"/>
+		<dependency org="org.mongodb" name="mongo-java-driver" rev="latest.release"/>
+		<dependency org="colt" name="colt" rev="1.2.0"/>
+        
+        <exclude org="log4j"/>
+		<exclude org="commons-logging"/>
+		<exclude org="org.slf4j" artifact="slf4j-log4j12"/>
+        <exclude org="org.eclipse.jetty.tests" />
+        <exclude org="org.eclipse.jetty" />
+        
+ 	</dependencies>
+ 	
+</ivy-module>

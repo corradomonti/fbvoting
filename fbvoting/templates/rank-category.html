@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<script src="/static/js/rank.js"></script>
+<script src="/static/js/playbuttons.js"></script>
+
+<section id="hero">    
+  <div class="hero-unit row">
+    <div class="span3">
+        <img class="circled" width="150" height="150" alt="" src="/static/images/categories/{{category}}.jpg" />
+    </div>
+    <div class="genre-title">
+        <h1>{{category}}</h1>
+        <p>
+            <big>
+                {{header}}
+            </big>
+        </p>
+    </div>
+    
+    <a class="btn primary large" onclick="$('.playable a').get(0).click();" >
+        Play all ▶
+    </a>
+  </div>
+</section>
+
+<section id="tables">
+        
+    <div class="votes-overview row single-category-rank">
+                
+        <div id="{{category}}-ranks">
+            <div class="video-playing-interface">
+                <div class="span column video-player" id="{{category}}-video-hook"></div>
+                <div class="column">
+                    <a href="javascript:;" class="share-btn btn primary large">Share</a>
+                </div>
+                <div class="like-btn column">Like</div>
+                <div class="dislike-btn column"></div>
+            </div>
+            
+            {% for i in json_pages %}
+                <div class="row rank-row" id="rank-{{i}}"></div>    
+            {% endfor %}
+        
+            {% for i in json_pages %}   
+                <script>
+                    $('body').on( "propagationDefined", function() {
+                        requestRank('rank-{{i}}', '{{category}}', type = '{{rank_type}}', page = {{i}}
+                            {% if autoplay_id is defined %}
+                                , function() { $('#rank-{{i}}-play-{{autoplay_id}} a').click(); }
+                            {% else %}
+                                {% if playfirst %}
+                                    , function() {  $('.playable a').get(0).click(); }
+                                {% endif %}
+                            {% endif %}
+                        );
+                    });
+                </script>
+            {% endfor %}
+        </div>
+        
+    </div>
+    
+    
+    <div class="pagination">
+        <ul>
+            {% for n, link in pages %}
+                {% if link %}
+                    <li><a href="/{{rank_type}}/{{category}}?page={{n}}">{{link}}</a></li>
+                {% else %}
+                    <li class="active"><a href="#">{{n}}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    
+</section>
+
+{% endblock %}

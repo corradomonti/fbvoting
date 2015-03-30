@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section id="tables">
+        
+    <div class="page-header">
+      <h1>Your votes <small>Express your preferences!</small></h1>
+    </div>
+        
+    <div class="votes-overview">
+        
+        {% for category, done, advice, delegate in votes %}
+          
+            <div class="row" id="{{category}}" >
+                <div class="span3 column">
+                    <a href="votes/{{category}}">
+                        <div class="editable-big">
+                            <img class="circled" width="150" height="150" alt="" src="/static/images/categories/{{category}}.jpg" />
+                        </div>
+                        <h1>{{category}}</h1>
+                    </a>
+                </div>
+                
+                {% if not done %}   
+                    <div class="span3 column">
+                        {% if category in votable %}
+                            <a class="btn primary large" href="votes/{{category}}">Vote!</a>
+                        {% else %}
+                            <a class="btn disabled large" href="votes/{{next_vote}}">
+                                <small>Vote {{next_vote}} first</small>
+                            </a>
+                        {% endif %}
+                    </div>
+                {% else %}
+                        
+                    <div class="span3 column" id="{{category}}delegate">
+                        {% if delegate != None %}
+                            
+                            <a href="votes/{{category}}">
+                                <div class="editable-med">
+                                    <img class="fbv-avatar circled" alt="" src="static/images/80px-loader.gif" />
+                                </div>
+                                <h4><span class="name" ></span></h4>
+                            </a>
+                            
+                            
+                            <script>
+                                // retrieve delegate pic and name from fb
+                                $('body').on( "onFacebookLoaded", function() {
+                                    FB.api('/{{delegate}}/', function(friend) {
+                                        imgsrc = "https://graph.facebook.com/"
+                                            + friend.id + "/picture?"
+                                            + "width=80&height=80";
+                                       
+                                        $('#{{category}}delegate img').attr("src", imgsrc);
+                                        $('#{{category}}delegate .name').text(friend.name);
+                                    });
+                                });
+                            </script>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="span4 column">
+                        {{ advice }}
+                    </div>
+                    
+                    <div class="column span2">
+                        <a id="{{category}}-share-btn" style="display:none;" class="btn primary large vote-share-btn" href="javascript:;" onclick="share{{category}}();">Share</a>
+                    </div>
+                    
+                    <script>
+                    $('#{{category}}').hover(
+                        function() { $('#{{category}}-share-btn').show(); },
+                        function() { $('#{{category}}-share-btn').hide(); }
+                    );
+                    
+                    var share{{category}} = function() {
+                        FB.ui({
+                            method: 'feed',
+                            link: '{{app_link}}',
+                            picture: '{{DOMAIN}}/static/images/categories/{{category}}.jpg',
+                            description: {{share_messages[category]|json}},
+                            caption: {{description|json}},
+                        }, function(response){});
+                    };
+                    </script>
+                    
+                {% endif %}
+                
+                
+            </div>
+                
+            <hr />
+                
+        {% endfor %}
+      
+    </div>
+    
+    {% if completed %}
+      <a class="btn success large span10" href="recommendation">See recommendations &raquo;</a>
+    {% else %}
+      <a class="btn large span10" href="votes/{{next_vote}}">You still have to complete voting!</a>
+    {% endif %}
+
+</section>
+
+{% endblock %}

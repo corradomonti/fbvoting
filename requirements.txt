@@ -1,0 +1,15 @@
+gunicorn==18.0
+gevent==1.0.1
+Flask==0.7.2
+Jinja2==2.6
+Werkzeug==0.7.1
+simplejson==2.2.1
+wsgiref==0.1.2
+requests==0.10.4
+pymongo==2.6
+pyfacegraph==0.0.4
+google-api-python-client==1.2
+pycrypto==2.6.1
+pyOpenSSL==0.13
+flask-redis==0.0.5
+Distance==0.1.3

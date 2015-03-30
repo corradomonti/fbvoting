@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section id="tables">
+        
+    <div class="page-header">
+      <h1>
+        Friends
+        <small>Do you have some friends that the community sees as experts?</small>
+      </h1>
+    </div>
+        
+    <div class="votes-overview">
+        
+        {% if best_friends %}
+        
+            {% for category, delegate, perc, decile in best_friends %}
+              
+                <div class="row" id="{{category}}" >
+                    <div class="span3 column">
+                        <a href="votes/{{category}}">
+                            <div class="editable-big">
+                                <img class="circled" width="150" height="150" alt="" src="/static/images/categories/{{category}}.jpg" />
+                            </div>
+                            <h1>{{category}}</h1>
+                        </a>
+                    </div>
+                    
+                    <div class="span3 column" id="{{category}}delegate">
+                        <div>
+                            <img class="fbv-avatar circled" alt="" src="static/images/80px-loader.gif" />
+                        </div>
+                        <h4><span class="name" ></span></h4>
+                        
+                        
+                        <script>
+                            // retrieve delegate pic and name from fb
+                            $('body').on( "onFacebookLoaded", function() {
+                                FB.api('/{{delegate}}/', function(friend) {
+                                    imgsrc = "https://graph.facebook.com/"
+                                        + friend.id + "/picture?"
+                                        + "width=80&height=80";
+                                   
+                                    $('#{{category}}delegate img').attr("src", imgsrc);
+                                    $('#{{category}}delegate .name').text(friend.name);
+                                });
+                            });
+                        </script>
+                    </div>
+                    
+                    <div class="span4 column">
+                        <big>
+                            is better than
+                            <h1>{{decile}} <small>people out of</small> 10</h1>
+                            (top {{perc}}%)
+                        </big>
+                    </div>
+                    
+                    
+                </div>
+                    
+                <hr />
+                    
+            {% endfor %}
+        
+        {% else %}
+            You don't have friends who are popular on Liquid FM!
+        {% endif %}
+      
+    </div>
+    
+</section>
+
+{% endblock %}

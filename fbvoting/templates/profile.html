@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Your Profile &amp; Stats <small>Your results in our liquid democracy</small></h1>
+</div>
+
+{% if total_nominations == 0 %}
+    <h5>
+        None of your friends have nominated you yet. <br />
+        <a id="nomination-share-btn" class="btn primary" href="javascript:;" onclick="share();">
+            Invite them!
+        </a>
+    </h5>
+{% endif %}
+
+
+<script>
+// share function
+var share = function() {
+    FB.ui({
+        method: 'feed',
+        link: '{{app_link}}',
+        description: {{share_message|json}},
+        caption: {{description|json}},
+        picture: '{{picture}}',
+    }, function(response){});
+};
+</script>
+
+{% if nonzero %}
+    
+    {% if categories_with_requests %}
+        <div class="alert-message success">
+            <h4>Your expertise has been requested for these genres! <small>Please, vote for:</small></h4>
+            {% for cat in categories_with_requests %}
+                <a class="btn primary" href="/votes/{{cat}}">
+                    {{cat}}
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    {% if ranking_infos %}
+        
+        <script>
+            // share function
+            var shareGuru = function() {
+                FB.ui({
+                    method: 'feed',
+                    link: '{{app_link}}',
+                    description: {{share_guru|json}},
+                    caption: {{description|json}},
+                    picture: {{picture_guru|json}},
+                }, function(response){});
+            };
+        </script>
+        
+        <section id="hero">    
+            <div class="hero-unit">
+                {{ranking_infos}}
+                
+                <a id="guru-share-btn" class="btn primary" href="javascript:;" onclick="shareGuru();">
+                    Share
+                </a>
+                
+            </div>
+        </section>
+        
+        <hr />
+    {% endif %}
+
+    <h2>
+        You have received {{total_nominations}} nomination{{brief_comment}}
+        <a id="nomination-share-btn" class="btn primary large" href="javascript:;" onclick="share();">
+            Share
+        </a>
+    </h2>
+    
+    <hr />
+    
+    <h4>Nominations by week</h4>
+    <div>
+        <canvas id="timeplot" width="550" height="200"></canvas>
+    </div>
+    
+    <hr />
+    
+    <h4>Nominations by genre</h4>
+    <div>
+        <canvas id="genreplot" width="500" height="500"></canvas>
+    </div>
+    
+    <script>
+    
+    $( document ).ready(function() {
+        // timeplot
+        var timeplotCanvas = $("#timeplot").get(0).getContext("2d");
+        var timeplotChart = new Chart(timeplotCanvas);
+        var timedata = {
+            labels : {{dates|json}},
+            datasets : [
+                {
+                    fillColor : "rgba(151,187,205,0.5)",
+                    strokeColor : "rgba(151,187,205,1)",
+                    pointColor : "rgba(151,187,205,1)",
+                    pointStrokeColor : "#fff",
+                    data : {{date_values|json}}
+                },
+            ]
+        };
+        
+        var timeoptions = {{timeplot_options|json}};
+        
+        timeplotChart.Line(timedata, timeoptions);
+        
+        // genre plot
+        var genreplotCanvas = $("#genreplot").get(0).getContext("2d");
+        var genreplotChart = new Chart(genreplotCanvas);
+        var genredata = {
+            labels : {{categories|json}},
+            datasets : [
+                {
+                    fillColor : "rgba(151,187,205,0.5)",
+                    strokeColor : "rgba(151,187,205,1)",
+                    pointColor : "rgba(151,187,205,1)",
+                    pointStrokeColor : "#fff",
+                    data : {{category_values|json}}
+                },
+            ]
+        };
+        
+        var genreoptions = {scaleOverlay : true,};
+        genreplotChart.Radar(genredata, genreoptions);
+    });
+    
+    </script>
+
+{% endif %}
+
+{% endblock %}

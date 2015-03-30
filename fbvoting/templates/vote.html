@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<script src="/static/js/directvote.js"></script>
+<script src="/static/js/delegatevote.js"></script>
+<script src="/static/js/voting.js"></script>
+
+
+<section id="hero">    
+  <div class="hero-unit row">
+    <div class="span3">
+        <img class="circled" width="150" height="150" alt="" src="/static/images/categories/{{category}}.jpg" />
+    </div>
+    <div class="genre-title">
+        <h1>{{category}}</h1>
+        <p>
+            <big>
+                Express your preference in {{category}}...
+                or delegate!
+            </big>
+        </p>
+    </div>
+  </div>
+</section>
+
+<section id="forms">
+    
+    <form id="input" name="input" action="/savevote?next={{next_page}}" method="post">
+        <fieldset>
+            
+            <!--- delegate vote ----------------------------------------------->
+            
+            <legend>Do you have a friend you think is more into {{category}} than you?</legend>
+            
+            <label id="asking-name" for="delegate">Friend name</label>
+            <div class="input" id="delegate-input-container" >
+                <input class="xlarge span6" autocomplete="off" id="delegate" name="delegate" size="30" type="text">
+            </div>
+            
+            <div class="row" id="chosen" style="display:none;">
+                <div class="span5">
+                    <div>
+                        <a class="close" onclick="unselect_delegate();" href="javascript:;">&times;</a>
+                        <img class="fbv-avatar circled" alt="" src="/static/images/80px-loader.gif" />
+                    </div>
+                    <h4><span class="name" ></span></h4>
+                </div>
+            </div>
+            
+            <div>
+                <div class="input">
+                    <ul class="inputs-list">
+                        <li id="notify-delegate" style="display:none;">
+                            <label>
+                                <input type="checkbox" checked value="notify" name="notify">
+                                    <span>Tell your friend that you trust her/his taste in {{category}}</span>
+                            </label>
+                        </li>
+            
+                    </ul>
+                </div>
+            </div>
+            
+            <!--- direct votes ------------------------------------------------>
+            
+            <legend>Do you know some great {{category}} {{song}}?</legend>
+            <div class="input">
+                <span class="help-block">
+                    Order does not matter. You can also indicate less than 3 {{song}}s. 
+                </span>
+            </div>
+            
+            {% for n in range(N_ITEMS) %}
+                <div class="single-directvote">
+                    {% for field in directvoteform %}
+                        
+                        {% if field.visible %} 
+                            <label for="{{field.input_id}}{{n}}">{{field.description}}</label>
+                            <div class="input">
+                                <input autocomplete="off" class="xlarge span6 directvote {{field.input_id}}" id="{{field.input_id}}{{n}}"
+                                name="{{field.input_id}}{{n}}" size="30" type="{{field.input_type}}" />
+                            </div>
+                        {% else %}
+                            <input type="hidden" id="{{field.input_id}}{{n}}" name="{{field.input_id}}{{n}}" class="{{field.input_id}}" value="">
+                        {% endif %}
+                        
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            
+            <script>
+                var N_ITEMS = {{N_ITEMS}};
+                
+                // attach to each element its id relative
+                $('.single-directvote input').each(function() {
+                    $(this).data('num', $(this).attr('id').slice(-1));
+                } );
+            </script>
+            
+            <div id="videoselect" class="row" style="display:none;">
+                
+                <div class="span5 offset3 alert-message block-message success">
+                    
+                    <a href="javascript:;" onclick="$('#videoselect').fadeOut();" class="close">
+                        &times;
+                    </a>
+                    
+                    <div id="videoselect-error" class="alert-message error" style="display:none;">
+                        <a href="javascript:;" onclick="$('#videoselect-error').fadeOut(200);" class="close">&times;</a>
+                        <p>
+                        It's impossible to find a video for the {{song}} you selected.
+                        Please, select another {{song}}.
+                        </p>
+                    </div>
+                    
+                    <div id="videoselect-input">
+                        <p>
+                            <strong>Hey!</strong> Does this video match<span id="video-match-what"> what you want</span>?
+                        </p>
+                        
+                        <div class="my-player">
+                            <iframe src="" width="250" height="150"> </iframe>
+                        </div>
+                        
+                        <div class="alert-actions">
+                          <a href="javascript:;" onclick="acceptYoutubeVideo();" class="btn success small">
+                            Yes
+                          </a>
+                          <a href="javascript:;" onclick="nextYoutubeResult();" class="btn small">
+                            No
+                          </a>
+                        </div>
+                    </div>
+                    
+                    <div id="videoselect-thanks" style="display:none;">
+                        <strong>Thank you!</strong>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </fieldset>
+        
+        <input type="hidden" id="category"    name="category"    value="{{category}}">
+        <input type="hidden" id="userid"      name="userid"      value="{{userid}}">
+        <input type="hidden" id="delegate_id" name="delegate_id" value="">
+        <input type="hidden" id="changed"     name="changed"     value="">
+        
+        <script>
+            // initialize input if it's there
+            {% if directvotes is defined %}
+                {% for i, directvote in directvotes %}
+                    {% for field in directvoteform %}
+                        {% if directvote[field.db_id] is defined %}
+                            $('#{{field.input_id}}{{i}}').val({{directvote[field.db_id]|json}});
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                
+                $('#changed').val('');
+            {% endif %}
+            
+            {% if delegate is defined %}
+                $('body').on( "onFacebookLoaded", function() {
+                    var avatarSize = 80;
+                    
+                    FB.api('/{{delegate}}/', function(friend) {
+                        friend.picture = "https://graph.facebook.com/" + friend.id +
+                            "/picture?width=" + avatarSize + "&height=" + avatarSize;
+                        select_delegate(friend);
+                        $('#notify-delegate input').attr('checked', false);
+                        $('#changed').val('');
+                    });
+                });
+                
+            {% endif %}
+        </script>
+        
+        <div id="error-msg" class="alert-message error" style="display:none;">
+            <a href="javascript:;" onclick="$('#error-msg').fadeOut(200);" class="close">&times;</a>
+            <p>
+                <!-- error message place-holder -->
+            </p>
+        </div>
+        
+        <div class="actions">
+            <p><input id="submit-btn" type="submit" class="btn primary large" value="Vote &raquo;" /></p>
+        </div>
+        
+    </form>
+</section>
+
+<script>$('body').css('overflow', 'visible');</script>
+
+{% endblock %}

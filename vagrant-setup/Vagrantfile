@@ -1,0 +1,15 @@
+Vagrant.configure(2) do |config|
+
+  config.vm.box = "hashicorp/precise64"
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 14000
+    v.cpus = 6  
+  end
+
+  config.vm.network "public_network", :bridge => 'em1', auto_config: false
+
+  config.vm.provision "shell", :path => "provision.sh"
+
+end
