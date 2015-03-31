@@ -5,7 +5,7 @@ export TZ=Europe/Rome
 . ./venv/bin/activate
 
 echo "Check if new libraries are needed..."
-pip install -q -r requirements.txt
+pip install -r requirements.txt
 
 # MULTITHREAD WITH GUNICORN #
 echo "Restarting gunicorn..."

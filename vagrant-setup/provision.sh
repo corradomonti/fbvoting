@@ -20,7 +20,7 @@ apt-get update
 
 apt-get -y install oracle-java7-installer
 apt-get -y install mongodb-10gen
-apt-get -y install mercurial
+apt-get -y install git
 
 ### python and venv
 
@@ -29,22 +29,9 @@ python /tmp/get-pip.py
 pip install virtualenv
 pip install virtualenvwrapper
 
-### configure fbvoting home 
+### clean my home
 
-rm -rf /home/vagrant/fbvoting /home/vagrant/.pip /home/vagrant/.ssh/id_rsa /tmp/bootstrap.sh
-
-cat <<EOF >/home/vagrant/.ssh/config
-NoHostAuthenticationForLocalhost yes
-StrictHostKeyChecking no
-UserKnownHostsFile /dev/null
-EOF
-
-chown vagrant:vagrant /home/vagrant/.ssh/config
-
-cp /vagrant/id_rsa /home/vagrant/.ssh && chown vagrant:vagrant /home/vagrant/.ssh/id_rsa
-cp /vagrant/id_rsa.pub /home/vagrant/.ssh && chown vagrant:vagrant /home/vagrant/.ssh/id_rsa.pub
-chmod 600 /home/vagrant/.ssh/id_rsa
-chmod 600 /home/vagrant/.ssh/id_rsa.pub 
+rm -rf /home/vagrant/fbvoting /home/vagrant/.pip /tmp/bootstrap.sh
 
 ### setup cron job for ranking
 cat <<EOF >/etc/cron.hourly/doranking
@@ -54,3 +41,12 @@ EOF
 
 chmod u+x /etc/cron.hourly/doranking
 
+# we setup a script so that we can execute it as vagrant user (via sudo)
+cat <<EOF >/tmp/bootstrap.sh
+cd /home/vagrant && git clone https://github.com/corradomonti/fbvoting.git
+virtualenv /home/vagrant/fbvoting/venv
+cd /home/vagrant/fbvoting && chmod u+x ./deploy.sh
+EOF
+
+chmod a+rx /tmp/bootstrap.sh
+sudo -u vagrant /tmp/bootstrap.sh

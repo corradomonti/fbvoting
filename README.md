@@ -13,15 +13,40 @@ Contents
 
 This repository contains:
 
-  * the **[Vagrant](http://www.vagrantup.com/) setup files** (folder `vagrant-setup`); they will
+  * the **[Vagrant](http://www.vagrantup.com/) setup files** (directory `vagrant-setup`); they will
   install a Vagrant Box with all the necessary software (`pip`, VirtualEnv, Gunicorn, MongoDB, Redis, etc.) to run the app, except for the Java part.
   
-  * the **Python part** of the project (folder `fbvoting`). It can be run -- provided necessary software has been installed -- with the `deploy.sh` script.
+  * the **Python part** of the project (directory `fbvoting`). It can be run -- provided necessary software has been installed -- with the `deploy.sh` script.
 
-  * the **Java part** (folder `java`). It should be compiled (with its `ivy` dependencies) in order to produce a runnable, complete `jar` file. This can then be copied into the running Vagrant Box as `/home/vagrant/fbvoting/java/fbvoting-Main.jar`.
+  * the **Java part** (directory `java`). It should be compiled (with its `ivy` dependencies) in order to produce a runnable, complete `jar` file.
 
-Configuration
--------------
-**IMPORTANT: you have to set up properly the file `fbvoting/conf.py` in order to run the project correctly!**
+How To Install
+--------------
+
+1. Download this repo with
+
+		git clone https://github.com/corradomonti/fbvoting.git
+
+
+1. Compile the Java part into a runnable, self-contained `jar`.
+	
+2.	Change directory with `cd vagrant-setup` and install the Vagrant Box with
+		
+		vagrant up
+		
+3. Enter the box with `vagrant ssh`.
+
+4. Copy the `jar` created before to `/home/vagrant/fbvoting/java/fbvoting-Main.jar`
+
+5. Now, the hard part: you need to open the file 
+
+		/home/vagrant/fbvoting/fbvoting/conf.py
+
+	and insert the correct values for each `None` variable. Also, if you want the virtual machine to be reachable from the outside (and maybe you want apache, too), now it's the time to configure it.
+
+4.	Finally, you can run everything with:
+	
+		cd /home/vagrant/fbvoting
+		sh deploy.sh
   
   
