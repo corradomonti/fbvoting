@@ -28,23 +28,23 @@ How To Install
 		git clone https://github.com/corradomonti/fbvoting.git
 
 
-1. Compile the Java part into a runnable, self-contained `jar`.
+2. Compile the Java part into a runnable, self-contained `jar`.
 	
-2.	Change directory with `cd vagrant-setup` and install the Vagrant Box with
+3.	Change directory with `cd vagrant-setup` and install the Vagrant Box with
 		
 		vagrant up
 		
-3. Enter the box with `vagrant ssh`.
+4. Enter the box with `vagrant ssh`.
 
-4. Copy the `jar` created before to `/home/vagrant/fbvoting/java/fbvoting-Main.jar`
+5. Copy the `jar` created before to `/home/vagrant/fbvoting/java/fbvoting-Main.jar`
 
-5. Now, the hard part: you need to open the file 
+6. Now, the hard part: you need to open the file 
 
 		/home/vagrant/fbvoting/fbvoting/conf.py
 
 	and insert the correct values for each `None` variable. Also, if you want the virtual machine to be reachable from the outside (and maybe you want apache, too), now it's the time to configure it.
 
-4.	Finally, you can run everything with:
+7.	Finally, you can run everything with:
 	
 		cd /home/vagrant/fbvoting
 		sh deploy.sh
